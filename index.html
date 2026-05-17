@@ -1,105 +1,192 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>THE STACK — Multi-Surface Runtime Architecture</title>
 
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            bg:       '#07090e',
-            surface:  '#0d1119',
-            surface2: '#131825',
-            border:   'rgba(255,255,255,0.07)',
-            emerald:  { DEFAULT: '#3dffa0', dim: 'rgba(61,255,160,0.12)' },
-            violet:   { DEFAULT: '#8b7fff', dim: 'rgba(139,127,255,0.12)' },
-            coral:    { DEFAULT: '#ff6b6b', dim: 'rgba(255,107,107,0.12)' },
-            amber:    { DEFAULT: '#ffb347', dim: 'rgba(255,179,71,0.12)' },
+            bg: '#f5f7fb',
+            surface: '#ffffff',
+            surface2: '#f1f4f9',
+            border: 'rgba(15,23,42,0.08)',
+
+            emerald: {
+              DEFAULT: '#00b67a',
+              dim: 'rgba(0,182,122,0.08)'
+            },
+
+            violet: {
+              DEFAULT: '#7c6cff',
+              dim: 'rgba(124,108,255,0.08)'
+            },
+
+            coral: {
+              DEFAULT: '#ff6b6b',
+              dim: 'rgba(255,107,107,0.08)'
+            },
+
+            amber: {
+              DEFAULT: '#ff9f43',
+              dim: 'rgba(255,159,67,0.08)'
+            },
           },
+
           fontFamily: {
             display: ['Instrument Serif', 'Georgia', 'serif'],
-            head:    ['Epilogue', 'sans-serif'],
-            mono:    ['JetBrains Mono', 'monospace'],
+            head: ['Epilogue', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
           },
+
           animation: {
-            marquee:   'marquee 28s linear infinite',
-            fadeUp:    'fadeUp 0.8s ease both',
-            pulse2:    'pulse2 2.4s ease-in-out infinite',
-            scanline:  'scanline 4s ease-in-out infinite',
+            marquee: 'marquee 28s linear infinite',
+            fadeUp: 'fadeUp 0.8s ease both',
+            pulse2: 'pulse2 2.4s ease-in-out infinite',
           },
+
           keyframes: {
-            marquee:  { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } },
-            fadeUp:   { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-            pulse2:   { '0%,100%': { opacity: '.35' }, '50%': { opacity: '1' } },
-            scanline: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100vh)' } },
-          },
+            marquee: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' }
+            },
+
+            fadeUp: {
+              '0%': {
+                opacity: '0',
+                transform: 'translateY(20px)'
+              },
+
+              '100%': {
+                opacity: '1',
+                transform: 'translateY(0)'
+              }
+            },
+
+            pulse2: {
+              '0%,100%': { opacity: '.35' },
+              '50%': { opacity: '1' }
+            },
+          }
         }
       }
     }
   </script>
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <!-- Custom CSS -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-bg text-white overflow-x-hidden">
 
-  <!-- CANVAS GRID BG -->
-  <canvas id="gridCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+<body class="bg-bg text-slate-900 overflow-x-hidden">
 
-  <!-- SCANLINE EFFECT -->
-  <div id="scanline" class="fixed left-0 right-0 h-px bg-emerald/10 pointer-events-none z-10 animate-scanline"></div>
+  <!-- GRID -->
+  <canvas id="gridCanvas"
+    class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-  <!-- ── NAV ── -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <!-- NAV -->
+  <nav id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+
     <div class="max-w-7xl mx-auto px-8 py-5 flex items-center justify-between">
-      <a href="#" class="font-mono text-xs tracking-[0.3em] uppercase text-emerald font-medium">
+
+      <a href="#"
+        class="font-mono text-xs tracking-[0.3em] uppercase text-emerald font-medium">
         THE.STACK
       </a>
+
       <ul class="hidden md:flex items-center gap-10">
-        <li><a href="#layers"     class="nav-link">Layers</a></li>
-        <li><a href="#tools"      class="nav-link">Tools</a></li>
-        <li><a href="#paths"      class="nav-link">Paths</a></li>
-        <li><a href="#philosophy" class="nav-link">Philosophy</a></li>
+
+        <li>
+          <a href="#layers" class="nav-link">Layers</a>
+        </li>
+
+        <li>
+          <a href="#tools" class="nav-link">Tools</a>
+        </li>
+
+        <li>
+          <a href="#paths" class="nav-link">Paths</a>
+        </li>
+
+        <li>
+          <a href="#philosophy" class="nav-link">Philosophy</a>
+        </li>
+
       </ul>
-      <div class="font-mono text-[10px] text-white/20 tracking-widest hidden md:block">v2.0 — 2025</div>
+
+      <div class="font-mono text-[10px] text-slate-400 tracking-widest hidden md:block">
+        v2.0 — 2026
+      </div>
+
     </div>
   </nav>
 
-  <!-- ── HERO ── -->
-  <section class="relative min-h-screen flex items-center pt-24 px-8 md:px-16 overflow-hidden">
+  <!-- HERO -->
+  <section
+    class="relative min-h-screen flex items-center pt-24 px-8 md:px-16 overflow-hidden">
 
-    <!-- Glow blobs -->
-    <div class="hero-glow-a absolute top-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none"></div>
-    <div class="hero-glow-b absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"></div>
+    <div
+      class="hero-glow-a absolute w-[600px] h-[600px] rounded-full pointer-events-none"></div>
 
-    <div class="relative z-10 max-w-7xl mx-auto w-full grid md:grid-cols-[1fr_340px] gap-16 items-center">
+    <div
+      class="hero-glow-b absolute w-[400px] h-[400px] rounded-full pointer-events-none"></div>
 
-      <!-- Left -->
+    <div
+      class="relative z-10 max-w-7xl mx-auto w-full grid md:grid-cols-[1fr_340px] gap-16 items-center">
+
+      <!-- LEFT -->
       <div class="animate-fadeUp">
+
         <div class="flex items-center gap-3 mb-8">
+
           <span class="block w-8 h-px bg-emerald"></span>
-          <span class="font-mono text-[10px] tracking-[0.3em] uppercase text-emerald">Multi-Surface Runtime Architecture</span>
+
+          <span
+            class="font-mono text-[10px] tracking-[0.3em] uppercase text-emerald">
+            Multi-Surface Runtime Architecture
+          </span>
+
         </div>
 
-        <h1 class="font-head text-[clamp(52px,8vw,100px)] font-black leading-[0.9] tracking-tight mb-8">
+        <h1
+          class="font-head text-[clamp(52px,8vw,100px)] font-black leading-[0.9] tracking-tight mb-8">
+
           Not a stack.<br>
-          <span class="font-display font-normal italic text-emerald">A living system.</span>
+
+          <span class="font-display font-normal italic text-emerald">
+            A living system.
+          </span>
+
         </h1>
 
-        <p class="font-display italic text-white/50 text-lg md:text-xl leading-relaxed max-w-xl mb-10">
-          Designed for rapid delivery without sacrificing type safety, architectural control, or raw performance. The same core runs across web, edge, desktop, and background workers.
+        <p
+          class="font-display italic text-slate-500 text-lg md:text-xl leading-relaxed max-w-xl mb-10">
+
+          Designed for rapid delivery without sacrificing type safety,
+          architectural control, or raw performance.
+
+          The same core runs across web, edge, desktop,
+          and background workers.
+
         </p>
 
         <div class="flex flex-wrap gap-2">
+
           <span class="stack-tag active">Next.js</span>
           <span class="stack-tag">Bun</span>
           <span class="stack-tag">PostgreSQL</span>
@@ -107,530 +194,572 @@
           <span class="stack-tag">Clerk</span>
           <span class="stack-tag">Sanity</span>
           <span class="stack-tag">Inngest</span>
+
         </div>
+
       </div>
 
-      <!-- Right: stat column -->
-      <div class="hidden md:flex flex-col gap-px animate-fadeUp" style="animation-delay:.2s">
+      <!-- RIGHT -->
+      <div class="hidden md:flex flex-col gap-3 animate-fadeUp">
+
         <div class="stat-box">
           <div class="stat-val">7</div>
           <div class="stat-label">Core Tools</div>
         </div>
+
         <div class="stat-box">
           <div class="stat-val">5</div>
           <div class="stat-label">Execution Surfaces</div>
         </div>
+
         <div class="stat-box">
           <div class="stat-val">0</div>
           <div class="stat-label">Forked Codebases</div>
         </div>
+
         <div class="stat-box">
           <div class="stat-val text-emerald">∞</div>
           <div class="stat-label">Retries on Failure</div>
         </div>
+
       </div>
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-10 left-8 md:left-16 flex items-end gap-3 animate-pulse2">
-      <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-white/30">Scroll</span>
-      <span class="block w-px h-12 bg-gradient-to-b from-white/30 to-transparent"></span>
+    <!-- SCROLL -->
+    <div
+      class="absolute bottom-10 left-8 md:left-16 flex items-end gap-3 animate-pulse2">
+
+      <span
+        class="font-mono text-[10px] tracking-[0.25em] uppercase text-slate-400">
+        Scroll
+      </span>
+
+      <span
+        class="block w-px h-12 bg-gradient-to-b from-slate-400 to-transparent"></span>
+
     </div>
+
   </section>
 
-  <!-- ── MARQUEE ── -->
-  <div class="border-y border-white/[0.06] bg-surface/60 backdrop-blur-sm py-4 overflow-hidden">
+  <!-- MARQUEE -->
+  <div
+    class="border-y border-slate-200 bg-white/70 backdrop-blur-sm py-4 overflow-hidden">
+
     <div class="flex animate-marquee whitespace-nowrap">
-      <!-- First copy -->
+
       <div class="flex gap-12 mr-12 items-center">
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Type-Safe</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Event-Driven</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Durable Execution</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Multi-Surface</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Self-Healing</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Zero-Config TypeScript</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Edge-Ready</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Desktop-Compilable</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Serverless Workers</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Offline-First Capable</span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Type-Safe
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Event-Driven
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Durable Execution
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Multi-Surface
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Self-Healing
+        </span>
+
       </div>
-      <!-- Duplicate -->
+
       <div class="flex gap-12 mr-12 items-center">
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Type-Safe</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Event-Driven</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Durable Execution</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Multi-Surface</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Self-Healing</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Zero-Config TypeScript</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Edge-Ready</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Desktop-Compilable</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Serverless Workers</span>
-        <span class="marquee-item"><span class="text-emerald mr-3">◆</span>Offline-First Capable</span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Type-Safe
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Event-Driven
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Durable Execution
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Multi-Surface
+        </span>
+
+        <span class="marquee-item">
+          <span class="text-emerald mr-3">◆</span>Self-Healing
+        </span>
+
       </div>
+
     </div>
+
   </div>
 
-  <!-- ── LAYERS ── -->
-  <section id="layers" class="relative z-10 py-28 px-8 md:px-16">
+  <!-- LAYERS -->
+  <section id="layers"
+    class="relative z-10 py-28 px-8 md:px-16">
+
     <div class="max-w-7xl mx-auto">
 
       <div class="section-eyebrow">Architecture</div>
+
       <div class="grid md:grid-cols-[1fr_auto] gap-8 items-end mb-16">
-        <h2 class="font-head text-[clamp(36px,5vw,60px)] font-black tracking-tight leading-tight">
-          Five operational<br><span class="font-display italic font-normal text-white/40">layers</span>
+
+        <h2
+          class="font-head text-[clamp(36px,5vw,60px)] font-black tracking-tight leading-tight">
+
+          Five operational<br>
+
+          <span class="font-display italic font-normal text-slate-400">
+            layers
+          </span>
+
         </h2>
-        <p class="font-display italic text-white/40 text-base max-w-xs leading-relaxed">
-          Not stacked — wired into a reactive loop coordinated through async event pipelines.
+
+        <p
+          class="font-display italic text-slate-500 text-base max-w-xs leading-relaxed">
+
+          Not stacked — wired into a reactive loop coordinated through async
+          event pipelines.
+
         </p>
+
       </div>
 
-      <div class="flex flex-col gap-px" id="layersContainer">
+      <div class="flex flex-col gap-4">
 
-        <!-- Layer 01 -->
-        <div class="layer-row" data-index="0">
+        <!-- ROW -->
+        <div class="layer-row">
+
           <div class="layer-num">01</div>
+
           <div class="layer-body">
-            <h3 class="layer-name">Edge Layer</h3>
-            <p class="layer-desc">Lightning-fast routing, geolocated asset optimization, request interception, and cryptographically verified JWT validation before reaching compute.</p>
+
+            <h3 class="layer-name">
+              Edge Layer
+            </h3>
+
+            <p class="layer-desc">
+
+              Lightning-fast routing, geolocated asset optimization,
+              request interception, and cryptographically verified JWT
+              validation before reaching compute.
+
+            </p>
+
           </div>
+
           <div class="layer-pills">
-            <span class="pill pill-green">Next.js Middleware</span>
-            <span class="pill pill-violet">Clerk Auth</span>
-            <span class="pill pill-green">Global CDN</span>
+
+            <span class="pill pill-green">
+              Next.js Middleware
+            </span>
+
+            <span class="pill pill-violet">
+              Clerk Auth
+            </span>
+
+            <span class="pill pill-green">
+              Global CDN
+            </span>
+
           </div>
+
         </div>
 
-        <!-- Layer 02 -->
-        <div class="layer-row" data-index="1">
+        <!-- ROW -->
+        <div class="layer-row">
+
           <div class="layer-num">02</div>
+
           <div class="layer-body">
-            <h3 class="layer-name">Compute & Web Layer</h3>
-            <p class="layer-desc">UI composition, React Server Components, state hydration, and high-throughput SSR driven natively by Bun. This is where metabolism happens.</p>
+
+            <h3 class="layer-name">
+              Compute & Web Layer
+            </h3>
+
+            <p class="layer-desc">
+
+              UI composition, React Server Components,
+              state hydration, and high-throughput SSR driven
+              natively by Bun.
+
+            </p>
+
           </div>
+
           <div class="layer-pills">
-            <span class="pill pill-green">Next.js</span>
-            <span class="pill pill-amber">Bun Runtime</span>
+
+            <span class="pill pill-green">
+              Next.js
+            </span>
+
+            <span class="pill pill-amber">
+              Bun Runtime
+            </span>
+
           </div>
+
         </div>
 
-        <!-- Layer 03 -->
-        <div class="layer-row" data-index="2">
+        <!-- ROW -->
+        <div class="layer-row">
+
           <div class="layer-num">03</div>
+
           <div class="layer-body">
-            <h3 class="layer-name">Data & Utility Engine</h3>
-            <p class="layer-desc">Decentralized system memory. Relational schemas live in Postgres; blobs and realtime sync offload to Appwrite; fluid market copy lives in the Sanity Content Lake.</p>
+
+            <h3 class="layer-name">
+              Data & Utility Engine
+            </h3>
+
+            <p class="layer-desc">
+
+              Relational schemas live in Postgres;
+              blobs and realtime sync offload to Appwrite;
+              fluid market copy lives in Sanity.
+
+            </p>
+
           </div>
+
           <div class="layer-pills">
-            <span class="pill pill-violet">PostgreSQL</span>
-            <span class="pill pill-coral">Appwrite</span>
-            <span class="pill pill-amber">Sanity</span>
+
+            <span class="pill pill-violet">
+              PostgreSQL
+            </span>
+
+            <span class="pill pill-coral">
+              Appwrite
+            </span>
+
+            <span class="pill pill-amber">
+              Sanity
+            </span>
+
           </div>
+
         </div>
 
-        <!-- Layer 04 -->
-        <div class="layer-row" data-index="3">
-          <div class="layer-num">04</div>
-          <div class="layer-body">
-            <h3 class="layer-name">Event & Orchestration Layer</h3>
-            <p class="layer-desc">The nervous system. Decouples long-running logic from request cycles. Manages durable step functions with bulletproof retries across all service boundaries.</p>
-          </div>
-          <div class="layer-pills">
-            <span class="pill pill-coral">Inngest</span>
-            <span class="pill pill-amber">Bun Workers</span>
-          </div>
-        </div>
-
-        <!-- Layer 05 -->
-        <div class="layer-row" data-index="4">
-          <div class="layer-num">05</div>
-          <div class="layer-body">
-            <h3 class="layer-name">Native Distribution Surface</h3>
-            <p class="layer-desc">Bun's compilation engine packages the entire web ecosystem into a single OS binary with a native WebView shell. Web becomes desktop without forking the codebase.</p>
-          </div>
-          <div class="layer-pills">
-            <span class="pill pill-amber">Bun Compile</span>
-            <span class="pill pill-green">WebView Shell</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Distribution table -->
-      <div class="mt-12 border border-white/[0.07] overflow-hidden">
-        <div class="font-mono text-[10px] tracking-[0.25em] uppercase text-white/30 px-6 py-3 border-b border-white/[0.07] bg-white/[0.02]">
-          Bun Distribution Matrix
-        </div>
-        <div class="divide-y divide-white/[0.04]">
-          <div class="dist-row">
-            <span class="dist-mode">Web</span>
-            <span class="dist-desc">Deployed via Vercel / Edge Functions</span>
-            <span class="pill pill-green text-right">Production</span>
-          </div>
-          <div class="dist-row">
-            <span class="dist-mode">Local Dev</span>
-            <span class="dist-desc">Bun runtime with hot reload</span>
-            <span class="pill pill-amber text-right">Development</span>
-          </div>
-          <div class="dist-row">
-            <span class="dist-mode">Desktop App</span>
-            <span class="dist-desc">Bun-compiled binary + native WebView</span>
-            <span class="pill pill-violet text-right">Distribution</span>
-          </div>
-          <div class="dist-row">
-            <span class="dist-mode">Hybrid</span>
-            <span class="dist-desc">Local-first execution with cloud sync</span>
-            <span class="pill pill-coral text-right">Offline</span>
-          </div>
-        </div>
       </div>
 
     </div>
+
   </section>
 
-  <!-- ── TOOLS ── -->
-  <section id="tools" class="relative z-10 py-28 px-8 md:px-16 bg-surface/30">
+  <!-- TOOLS -->
+  <section id="tools"
+    class="relative z-10 py-28 px-8 md:px-16 bg-white/50">
+
     <div class="max-w-7xl mx-auto">
 
-      <div class="section-eyebrow">The Stack</div>
-      <h2 class="font-head text-[clamp(36px,5vw,60px)] font-black tracking-tight leading-tight mb-4">
-        Every tool earns<br><span class="font-display italic font-normal text-white/40">its place</span>
-      </h2>
-      <p class="font-display italic text-white/40 text-base max-w-md leading-relaxed mb-16">
-        No cargo-culting. Each piece was chosen because it solves a specific class of problem better than any alternative.
-      </p>
-
-      <!-- Filter tabs -->
-      <div class="flex gap-2 mb-8 flex-wrap" id="filterTabs">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="compute">Compute</button>
-        <button class="filter-btn" data-filter="data">Data</button>
-        <button class="filter-btn" data-filter="auth">Auth</button>
-        <button class="filter-btn" data-filter="workflow">Workflow</button>
+      <div class="section-eyebrow">
+        The Stack
       </div>
 
-      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-px" id="toolsGrid">
+      <h2
+        class="font-head text-[clamp(36px,5vw,60px)] font-black tracking-tight leading-tight mb-4">
 
-        <!-- Next.js -->
-        <div class="tool-card" data-category="compute">
+        Every tool earns<br>
+
+        <span class="font-display italic font-normal text-slate-400">
+          its place
+        </span>
+
+      </h2>
+
+      <p
+        class="font-display italic text-slate-500 text-base max-w-md leading-relaxed mb-16">
+
+        No cargo-culting. Each piece was chosen because
+        it solves a specific class of problem better
+        than any alternative.
+
+      </p>
+
+      <!-- FILTERS -->
+      <div class="flex gap-2 mb-8 flex-wrap">
+
+        <button class="filter-btn active">
+          All
+        </button>
+
+        <button class="filter-btn">
+          Compute
+        </button>
+
+        <button class="filter-btn">
+          Data
+        </button>
+
+        <button class="filter-btn">
+          Workflow
+        </button>
+
+      </div>
+
+      <!-- GRID -->
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        <!-- CARD -->
+        <div class="tool-card">
+
           <div class="tool-glow glow-green"></div>
+
           <div class="tool-icon">⬡</div>
-          <div class="font-head text-xl font-bold mb-1">Next.js</div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Perception Layer</div>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-6">
-            The primary interface between the system and its users. React Server Components, App Router, and Server Actions form the composition layer.
+
+          <div class="font-head text-xl font-bold mb-1">
+            Next.js
+          </div>
+
+          <div
+            class="font-mono text-[10px] tracking-[0.2em] uppercase text-slate-400 mb-5">
+
+            Perception Layer
+
+          </div>
+
+          <p
+            class="font-display italic text-slate-500 text-sm leading-relaxed mb-6">
+
+            React Server Components,
+            App Router, and Server Actions
+            form the composition layer.
+
           </p>
+
           <ul class="tool-features">
+
             <li>React Server Components + Streaming</li>
             <li>SSG / SSR / ISR / Edge rendering</li>
-            <li>Server Actions for zero-boilerplate mutations</li>
-            <li>Middleware for edge-side routing logic</li>
+            <li>Server Actions</li>
+
           </ul>
+
         </div>
 
-        <!-- Bun -->
-        <div class="tool-card" data-category="compute">
+        <!-- CARD -->
+        <div class="tool-card">
+
           <div class="tool-glow glow-amber"></div>
+
           <div class="tool-icon">⚡</div>
-          <div class="font-head text-xl font-bold mb-1">Bun</div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Execution + Desktop Compiler</div>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-6">
-            Node.js is gone. Bun is runtime, package manager, bundler, test runner, and a native compilation target for desktop binaries.
+
+          <div class="font-head text-xl font-bold mb-1">
+            Bun
+          </div>
+
+          <div
+            class="font-mono text-[10px] tracking-[0.2em] uppercase text-slate-400 mb-5">
+
+            Runtime + Compiler
+
+          </div>
+
+          <p
+            class="font-display italic text-slate-500 text-sm leading-relaxed mb-6">
+
+            Runtime, package manager,
+            bundler, and native compilation target
+            for desktop binaries.
+
           </p>
+
           <ul class="tool-features">
-            <li>Zero-config TypeScript execution</li>
-            <li>bun build --compile → single OS binary</li>
-            <li>Native WebView shell integration</li>
-            <li>High-perf HTTP via Bun.serve()</li>
+
+            <li>Zero-config TypeScript</li>
+            <li>bun build --compile</li>
+            <li>Native WebView shell</li>
+
           </ul>
+
         </div>
 
-        <!-- PostgreSQL -->
-        <div class="tool-card" data-category="data">
+        <!-- CARD -->
+        <div class="tool-card">
+
           <div class="tool-glow glow-violet"></div>
+
           <div class="tool-icon">🗄</div>
-          <div class="font-head text-xl font-bold mb-1">PostgreSQL</div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Relational Truth</div>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-6">
-            The single source of transactional truth. Complex relational schemas, indexing, and migration management live here.
-          </p>
-          <ul class="tool-features">
-            <li>Full relational schema modeling</li>
-            <li>Transaction safety & rollback</li>
-            <li>Concurrency & deadlock mitigation</li>
-            <li>Inngest-backed write queuing on failure</li>
-          </ul>
-        </div>
 
-        <!-- Appwrite -->
-        <div class="tool-card" data-category="data">
-          <div class="tool-glow glow-coral"></div>
-          <div class="tool-icon">☁</div>
-          <div class="font-head text-xl font-bold mb-1">Appwrite</div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Storage & Realtime</div>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-6">
-            Offloads object storage, webhooks, and realtime client sync so the app layer stays focused on business logic, not infrastructure.
-          </p>
-          <ul class="tool-features">
-            <li>Object storage & user file vaults</li>
-            <li>Realtime event broadcasting</li>
-            <li>Webhooks → Inngest pipelines</li>
-            <li>Multi-tenant bucket isolation</li>
-          </ul>
-        </div>
-
-        <!-- Clerk -->
-        <div class="tool-card" data-category="auth">
-          <div class="tool-glow glow-violet"></div>
-          <div class="tool-icon">🔑</div>
-          <div class="font-head text-xl font-bold mb-1">Clerk</div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Identity Layer</div>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-6">
-            Managed authentication with edge JWT verification. Identity is resolved before a request ever touches the compute layer.
-          </p>
-          <ul class="tool-features">
-            <li>Edge-side JWT verification</li>
-            <li>User metadata & org management</li>
-            <li>RBAC-compatible session claims</li>
-            <li>Session sync across all surfaces</li>
-          </ul>
-        </div>
-
-        <!-- Sanity -->
-        <div class="tool-card" data-category="data">
-          <div class="tool-glow glow-amber"></div>
-          <div class="tool-icon">📝</div>
-          <div class="font-head text-xl font-bold mb-1">Sanity</div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Content Cognition</div>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-6">
-            Headless CMS powering dynamic, editor-friendly content. GROQ queries and the Content Lake provide a fluid API for structured copy.
-          </p>
-          <ul class="tool-features">
-            <li>GROQ for precise content queries</li>
-            <li>Editor-friendly schema design</li>
-            <li>Programmatic SEO at scale</li>
-            <li>Locale-aware content modeling</li>
-          </ul>
-        </div>
-
-        <!-- Inngest -->
-        <div class="tool-card md:col-span-2 xl:col-span-3" data-category="workflow">
-          <div class="tool-glow glow-coral" style="width:300px;height:300px;top:-80px;right:80px;"></div>
-          <div class="grid md:grid-cols-[1fr_1fr] gap-10">
-            <div>
-              <div class="tool-icon">🔀</div>
-              <div class="font-head text-xl font-bold mb-1">Inngest</div>
-              <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/30 mb-5">Nervous System — Time & Coordination</div>
-              <p class="font-display italic text-white/40 text-sm leading-relaxed mb-6">
-                The connective tissue that transforms isolated tools into a unified distributed platform. Durable step functions via standard HTTP. No message broker overhead. No infra to maintain.
-              </p>
-              <ul class="tool-features">
-                <li>Durable step functions with auto-retries</li>
-                <li>step.sleep() & step.waitForEvent()</li>
-                <li>Event replay for self-healing workflows</li>
-                <li>Serverless — invoked via HTTP webhooks</li>
-              </ul>
-            </div>
-            <div class="code-block self-center">
-              <div class="code-comment">// Self-healing onboarding workflow</div>
-              <div><span class="code-kw">export const</span> <span class="code-fn">onboardUser</span> = inngest.<span class="code-fn">createFunction</span>(</div>
-              <div>  { id: <span class="code-str">"user-onboarding"</span>, retries: <span class="code-num">5</span> },</div>
-              <div>  { event: <span class="code-str">"app/user.signup"</span> },</div>
-              <div>  <span class="code-kw">async</span> ({ event, step }) => {</div>
-              <div>&nbsp;</div>
-              <div>    <span class="code-comment">// Each step is isolated + replayable</span></div>
-              <div>    <span class="code-kw">const</span> userId = <span class="code-kw">await</span> step.<span class="code-fn">run</span>(</div>
-              <div>      <span class="code-str">"write-postgres"</span>,</div>
-              <div>      () => db.users.<span class="code-fn">create</span>(event.data)</div>
-              <div>    );</div>
-              <div>&nbsp;</div>
-              <div>    <span class="code-kw">await</span> step.<span class="code-fn">run</span>(<span class="code-str">"provision-storage"</span>,</div>
-              <div>      () => appwrite.<span class="code-fn">createBucket</span>(userId)</div>
-              <div>    );</div>
-              <div>&nbsp;</div>
-              <div>    <span class="code-kw">await</span> step.<span class="code-fn">run</span>(<span class="code-str">"init-sanity-profile"</span>,</div>
-              <div>      () => sanity.<span class="code-fn">create</span>({ _type: <span class="code-str">"author"</span>, id: userId })</div>
-              <div>    );</div>
-              <div>  }</div>
-              <div>);</div>
-            </div>
+          <div class="font-head text-xl font-bold mb-1">
+            PostgreSQL
           </div>
-        </div>
 
-      </div>
-    </div>
-  </section>
+          <div
+            class="font-mono text-[10px] tracking-[0.2em] uppercase text-slate-400 mb-5">
 
-  <!-- ── PATHS ── -->
-  <section id="paths" class="relative z-10 py-28 px-8 md:px-16">
-    <div class="max-w-7xl mx-auto">
+            Relational Truth
 
-      <div class="section-eyebrow">Career Trajectories</div>
-      <h2 class="font-head text-[clamp(36px,5vw,60px)] font-black tracking-tight leading-tight mb-4">
-        The stack forks<br><span class="font-display italic font-normal text-white/40">into two paths</span>
-      </h2>
-      <p class="font-display italic text-white/40 text-base max-w-md leading-relaxed mb-16">
-        Same foundation. Different gravity. One pulls toward experience, the other toward systems.
-      </p>
-
-      <div class="grid md:grid-cols-2 gap-px">
-
-        <!-- Path A -->
-        <div class="path-card border border-white/[0.07] bg-surface/60 p-10 relative overflow-hidden">
-          <div class="path-letter">A</div>
-          <div class="font-mono text-[10px] tracking-[0.3em] uppercase text-violet mb-3">Path A</div>
-          <h3 class="font-head text-2xl font-black mb-2">Content & Conversion<br>Architect</h3>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-8">
-            Engineering meets storytelling. Performance becomes business strategy. Milliseconds influence conversion.
-          </p>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/20 mb-4">Primary Stack</div>
-          <div class="flex flex-wrap gap-2 mb-8">
-            <span class="pill pill-green">Next.js</span>
-            <span class="pill pill-amber">Sanity</span>
-            <span class="pill pill-amber">Bun</span>
           </div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/20 mb-4">High-Leverage Moves</div>
-          <ul class="path-list">
-            <li>Premium niche starter sites — $800–$2,000/deploy</li>
-            <li>Programmatic SEO engines with ISR/SSG</li>
-            <li>Sanity schema bundles for editorial teams</li>
-            <li>Core Web Vitals + Lighthouse consulting</li>
-          </ul>
-        </div>
 
-        <!-- Path B -->
-        <div class="path-card border border-white/[0.07] bg-surface/60 p-10 relative overflow-hidden">
-          <div class="path-letter">B</div>
-          <div class="font-mono text-[10px] tracking-[0.3em] uppercase text-coral mb-3">Path B</div>
-          <h3 class="font-head text-2xl font-black mb-2">Systems & Operations<br>Engineer</h3>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed mb-8">
-            Not how it feels — how it behaves under pressure. Correctness, reliability, and transactional integrity at scale.
+          <p
+            class="font-display italic text-slate-500 text-sm leading-relaxed mb-6">
+
+            The single source of transactional truth.
+            Complex relational schemas and indexing live here.
+
           </p>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/20 mb-4">Primary Stack</div>
-          <div class="flex flex-wrap gap-2 mb-8">
-            <span class="pill pill-violet">PostgreSQL</span>
-            <span class="pill pill-coral">Appwrite</span>
-            <span class="pill pill-coral">Inngest</span>
-            <span class="pill pill-amber">Bun</span>
-          </div>
-          <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-white/20 mb-4">High-Leverage Moves</div>
-          <ul class="path-list">
-            <li>Micro-SaaS templates — $49–$199/mo recurring</li>
-            <li>White-label client portals for agencies</li>
-            <li>"Agency OS" internal tool builds</li>
-            <li>Long-term B2B infrastructure contracts</li>
+
+          <ul class="tool-features">
+
+            <li>Relational schema modeling</li>
+            <li>Transaction safety</li>
+            <li>Concurrency controls</li>
+
           </ul>
+
         </div>
 
-      </div>
-
-      <!-- Comparison table -->
-      <div class="mt-2 border border-white/[0.07] overflow-hidden">
-        <div class="font-mono text-[10px] tracking-[0.25em] uppercase text-white/30 px-6 py-3 border-b border-white/[0.07] bg-white/[0.02]">
-          Strategy Comparison
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-white/[0.06]">
-                <th class="table-head text-left">Metric</th>
-                <th class="table-head text-center text-violet">Path A</th>
-                <th class="table-head text-center text-coral">Path B</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-white/[0.04]">
-              <tr class="table-row-hover">
-                <td class="table-cell text-white/50 font-mono text-xs">Core Optimization</td>
-                <td class="table-cell text-center">Perception, speed, discoverability</td>
-                <td class="table-cell text-center">Correctness, uptime, security</td>
-              </tr>
-              <tr class="table-row-hover">
-                <td class="table-cell text-white/50 font-mono text-xs">Value Lever</td>
-                <td class="table-cell text-center">Direct revenue & conversion growth</td>
-                <td class="table-cell text-center">Operational efficiency & stability</td>
-              </tr>
-              <tr class="table-row-hover">
-                <td class="table-cell text-white/50 font-mono text-xs">Monetization</td>
-                <td class="table-cell text-center">Templates, rebrands, SEO</td>
-                <td class="table-cell text-center">SaaS, retainers, custom tooling</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
 
     </div>
+
   </section>
 
-  <!-- ── PHILOSOPHY ── -->
-  <section id="philosophy" class="relative z-10 py-28 px-8 md:px-16 bg-surface/30">
+  <!-- PHILOSOPHY -->
+  <section id="philosophy"
+    class="relative z-10 py-28 px-8 md:px-16">
+
     <div class="max-w-7xl mx-auto">
 
-      <div class="section-eyebrow">Design Philosophy</div>
-      <h2 class="font-head text-[clamp(36px,5vw,60px)] font-black tracking-tight leading-tight mb-16">
-        Failure is not an<br><span class="font-display italic font-normal text-white/40">exception. It's a path.</span>
+      <div class="section-eyebrow">
+        Design Philosophy
+      </div>
+
+      <h2
+        class="font-head text-[clamp(36px,5vw,60px)] font-black tracking-tight leading-tight mb-16">
+
+        Failure is not an<br>
+
+        <span class="font-display italic font-normal text-slate-400">
+          exception. It's a path.
+        </span>
+
       </h2>
 
-      <!-- Big quote -->
-      <div class="border-l-2 border-emerald pl-10 mb-20 bg-emerald/[0.03] py-8 pr-8">
-        <p class="font-display italic text-2xl md:text-3xl text-white/70 leading-relaxed">
-          "Most architecture diagrams assume a perfect network. This system is architected under the direct assumption that things will crash, APIs will time out, and database connections will face exhaustion."
+      <!-- QUOTE -->
+      <div
+        class="border-l-2 border-emerald pl-10 mb-20 bg-emerald/[0.03] py-8 pr-8 rounded-r-3xl">
+
+        <p
+          class="font-display italic text-2xl md:text-3xl text-slate-700 leading-relaxed">
+
+          “Most architecture diagrams assume a perfect network.
+          This system is architected under the direct assumption
+          that things will crash.”
+
         </p>
+
       </div>
 
-      <!-- Three principles -->
-      <div class="grid md:grid-cols-3 gap-px">
-        <div class="principle-card">
-          <div class="principle-num">01</div>
-          <h3 class="font-head text-lg font-bold mb-3">Failures Became Local</h3>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed">
-            A broken service doesn't collapse the system — it isolates impact. Each layer fails independently. The rest continues operating without human intervention.
-          </p>
-        </div>
-        <div class="principle-card">
-          <div class="principle-num">02</div>
-          <h3 class="font-head text-lg font-bold mb-3">Everything Is Replayable</h3>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed">
-            Because Inngest sits at the center, all critical workflows — onboarding, billing, content sync, asset provisioning — are event-driven and fully replayable.
-          </p>
-        </div>
-        <div class="principle-card">
-          <div class="principle-num">03</div>
-          <h3 class="font-head text-lg font-bold mb-3">Recovery Is Automatic</h3>
-          <p class="font-display italic text-white/40 text-sm leading-relaxed">
-            Retries, exponential backoff, event replay, and compensating actions replace live debugging. The system heals itself — no pager-duty required.
-          </p>
-        </div>
-      </div>
+      <!-- PRINCIPLES -->
+      <div class="grid md:grid-cols-3 gap-6">
 
-      <!-- Final statement -->
-      <div class="mt-24 text-center">
-        <p class="font-mono text-[10px] tracking-[0.3em] uppercase text-white/20 mb-6">The result</p>
-        <h3 class="font-head text-[clamp(28px,4vw,52px)] font-black tracking-tight leading-tight max-w-2xl mx-auto">
-          A portable, self-healing runtime that scales across environments without rewriting its core.
-        </h3>
-        <div class="mt-10 flex justify-center gap-2 flex-wrap">
-          <span class="organism-tag">Next.js <span class="organism-role">→ Perception</span></span>
-          <span class="organism-tag">Bun <span class="organism-role">→ Metabolism</span></span>
-          <span class="organism-tag">PostgreSQL <span class="organism-role">→ Memory</span></span>
-          <span class="organism-tag">Inngest <span class="organism-role">→ Nervous System</span></span>
-          <span class="organism-tag">Appwrite <span class="organism-role">→ Utility Organs</span></span>
-          <span class="organism-tag">Clerk <span class="organism-role">→ Identity</span></span>
-          <span class="organism-tag">Sanity <span class="organism-role">→ Cognition</span></span>
+        <div class="principle-card">
+
+          <div class="principle-num">
+            01
+          </div>
+
+          <h3 class="font-head text-lg font-bold mb-3">
+            Failures Become Local
+          </h3>
+
+          <p
+            class="font-display italic text-slate-500 text-sm leading-relaxed">
+
+            Each layer fails independently.
+            The rest continues operating without human intervention.
+
+          </p>
+
         </div>
+
+        <div class="principle-card">
+
+          <div class="principle-num">
+            02
+          </div>
+
+          <h3 class="font-head text-lg font-bold mb-3">
+            Everything Is Replayable
+          </h3>
+
+          <p
+            class="font-display italic text-slate-500 text-sm leading-relaxed">
+
+            Critical workflows are event-driven
+            and fully replayable through Inngest.
+
+          </p>
+
+        </div>
+
+        <div class="principle-card">
+
+          <div class="principle-num">
+            03
+          </div>
+
+          <h3 class="font-head text-lg font-bold mb-3">
+            Recovery Is Automatic
+          </h3>
+
+          <p
+            class="font-display italic text-slate-500 text-sm leading-relaxed">
+
+            Retries, replay, and compensating actions
+            replace live debugging.
+
+          </p>
+
+        </div>
+
       </div>
 
     </div>
+
   </section>
 
-  <!-- ── FOOTER ── -->
-  <footer class="border-t border-white/[0.06] px-8 md:px-16 py-12">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="font-mono text-xs tracking-[0.3em] uppercase text-emerald">THE.STACK</div>
-      <div class="font-display italic text-white/20 text-sm">A portable distributed system with multiple execution surfaces.</div>
-      <div class="font-mono text-[10px] text-white/20 tracking-widest">Built with Bun + Next.js</div>
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 px-8 md:px-16 py-12">
+
+    <div
+      class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div
+        class="font-mono text-xs tracking-[0.3em] uppercase text-emerald">
+
+        THE.STACK
+
+      </div>
+
+      <div
+        class="font-display italic text-slate-400 text-sm">
+
+        A portable distributed system with multiple execution surfaces.
+
+      </div>
+
+      <div
+        class="font-mono text-[10px] text-slate-400 tracking-widest">
+
+        Built with Bun + Next.js
+
+      </div>
+
     </div>
+
   </footer>
 
+  <!-- JS -->
   <script src="app.js"></script>
+
 </body>
+
 </html>
